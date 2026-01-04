@@ -1,0 +1,171 @@
+ #include <iostream>
+#include <string>
+using namespace std;
+
+struct Train {
+    int trainNo;
+    string source;
+    string destination;
+    string time;
+};
+
+const int MAX_TRAINS = 100;
+Train trains[MAX_TRAINS];
+int totalTrains = 0;
+
+void addTrain() {
+    if (totalTrains >= MAX_TRAINS) {
+        cout << "\nTrain list is full!\n";
+        return;
+    }
+
+    Train t;
+    cout << "\nEnter Train Number: ";
+    cin >> t.trainNo;
+    cout << "Enter Source Station: ";
+    cin >> t.source;
+    cout << "Enter Destination Station: ";
+    cin >> t.destination;
+    cout << "Enter Departure Time: ";
+    cin >> t.time;
+
+    trains[totalTrains] = t;
+    totalTrains++;
+
+    cout << "\n Train added successfully!\n";
+}
+
+void viewTrains() {
+    if (totalTrains == 0) {
+        cout << "\nNo trains available!\n";
+        return;
+    }
+
+    cout << "\n----- All Trains -----\n";
+    for (int i = 0; i < totalTrains; i++) {
+        cout << "Train No: " << trains[i].trainNo
+             << "  From: " << trains[i].source
+             << "  To: " << trains[i].destination
+             << "  Time: " << trains[i].time << endl;
+    }
+}
+
+void searchTrain() {
+    if (totalTrains == 0) {
+        cout << "\nNo trains available to search!\n";
+        return;
+    }
+
+    int searchNo;
+    cout << "\nEnter Train Number to search: ";
+    cin >> searchNo;
+
+    bool found = false;
+    for (int i = 0; i < totalTrains; i++) {
+        if (trains[i].trainNo == searchNo) {
+            cout << "\nTrain Found!\n";
+            cout << "Train No: " << trains[i].trainNo
+                 << "  From: " << trains[i].source
+                 << "  To: " << trains[i].destination
+                 << "  Time: " << trains[i].time << endl;
+            found = true;
+            break;
+        }
+    }
+
+    if (!found)
+        cout << "\nTrain not found!\n";
+}
+
+void adminMenu() {
+    string password;
+    cout << "\nEnter Admin Password: ";
+    cin >> password;
+
+    if (password != "THECOLLECTIVESIX") {
+        cout << "\n❌ Access Denied!\n";
+        return;
+    }
+
+    int choice;
+    do {
+        cout << "\n----- Admin Menu -----\n";
+        cout << "1. Add Train\n";
+        cout << "2. View All Trains\n";
+        cout << "3. Search Train\n";
+        cout << "4. Logout\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                addTrain();
+                break;
+            case 2:
+                viewTrains();
+                break;
+            case 3:
+                searchTrain();
+                break;
+            case 4:
+                cout << "\nLogging out...\n";
+                break;
+            default:
+                cout << "\nInvalid choice! Try again.\n";
+        }
+    } while (choice != 4);
+}
+
+void userMenu() {
+    int choice;
+    do {
+        cout << "\n----- User Menu -----\n";
+        cout << "1. View Trains\n";
+        cout << "2. Search Train\n";
+        cout << "3. Back to Main Menu\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                viewTrains();
+                break;
+            case 2:
+                searchTrain();
+                break;
+            case 3:
+                cout << "\nReturning to main menu...\n";
+                break;
+            default:
+                cout << "\nInvalid choice! Try again.\n";
+        }
+    } while (choice != 3);
+}
+
+int main() {
+    int choice;
+
+    do {
+        cout << "\n----- Railway Station Management System -----\n";
+        cout << "1. Admin Mode\n";
+        cout << "2. User Mode\n";
+        cout << "3. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                adminMenu();
+                break;
+            case 2:
+                userMenu();
+                break;
+            case 3:
+                cout << "\nThank you for using the system!\n";
+                break;
+            default:
+                cout << "\nInvalid choice! Try again.\n";
+        }
+    } while (choice != 3);
+
+    return 0;
